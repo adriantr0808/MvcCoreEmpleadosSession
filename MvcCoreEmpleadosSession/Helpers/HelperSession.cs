@@ -39,10 +39,9 @@ namespace MvcCoreEmpleadosSession.Helpers
             return data;
         }
 
-        public static Object DeserializeObject(string data)
+        public static T DeserializeObject<T>(string data)
         {
-            Object objeto = JsonConvert.DeserializeObject(data);
-            return objeto;
+            return JsonConvert.DeserializeObject<T>(data);
         }
     }
 }

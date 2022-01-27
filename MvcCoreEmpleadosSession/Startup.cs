@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -34,6 +35,10 @@ namespace MvcCoreEmpleadosSession
             services.AddDbContext<EmpleadosContext>(options => options.UseSqlServer(cadenasql));
 
             services.AddDistributedMemoryCache();
+
+            services.AddHttpContextAccessor();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddSession(options => {
                 options.IdleTimeout = TimeSpan.FromMinutes(15);

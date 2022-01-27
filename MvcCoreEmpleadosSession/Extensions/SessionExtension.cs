@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using MvcCoreEmpleadosSession.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,6 +9,23 @@ namespace MvcCoreEmpleadosSession.Extensions
 {
     public static class SessionExtension
     {
-        public
+        public static void SetObject(this ISession session, string key, object value)
+        {
+            string data = HelperSession.SerializeObject(value);
+            session.SetString(key, data);
+        }
+
+        public static T GetObject<T>(this ISession session, string key)
+        {
+            string data = session.GetString(key);
+            if (data == null)
+            {
+                return default(T);
+            }
+            else
+            {
+                return HelperSession.DeserializeObject<T>(data);
+            }
+        }
     }
 }
