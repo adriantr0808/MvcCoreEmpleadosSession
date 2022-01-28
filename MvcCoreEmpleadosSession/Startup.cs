@@ -34,14 +34,15 @@ namespace MvcCoreEmpleadosSession
 
             services.AddDbContext<EmpleadosContext>(options => options.UseSqlServer(cadenasql));
 
-            services.AddDistributedMemoryCache();
+           
 
             services.AddHttpContextAccessor();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+            services.AddDistributedMemoryCache();
             services.AddSession(options => {
-                options.IdleTimeout = TimeSpan.FromMinutes(15);
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
 
             });
             services.AddControllersWithViews();

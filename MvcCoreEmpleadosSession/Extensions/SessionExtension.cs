@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using MvcCoreEmpleadosSession.Helpers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace MvcCoreEmpleadosSession.Extensions
     {
         public static void SetObject(this ISession session, string key, object value)
         {
-            string data = HelperSession.SerializeObject(value);
+            string data = JsonConvert.SerializeObject(value);
             session.SetString(key, data);
         }
 
@@ -24,7 +25,7 @@ namespace MvcCoreEmpleadosSession.Extensions
             }
             else
             {
-                return HelperSession.DeserializeObject<T>(data);
+                return JsonConvert.DeserializeObject<T>(data);
             }
         }
     }

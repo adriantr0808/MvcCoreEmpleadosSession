@@ -1,0 +1,18 @@
+﻿@model List<Empleado>
+
+<h1>Session Empleado Salario</h1>
+
+<a asp-controller="Empleados" asp-action="SumaSalarios">Mostrar suma salarios almacenados</a>
+<h2 style="color: darkred">@ViewData["MENSAJE"]</h2>
+<ul class="list-group">
+    @foreach( Empleado emp in Model)
+            {
+                <li class="list-group-item">
+                    @emp.Apellido
+                    <a asp-controller="Empleados"
+                       asp-action="SessionSalarios"
+                       asp-route-salario="@emp.Salario">Almacenar salario
+                       </a>
+                </li>
+            }
+</ul>

@@ -25,5 +25,9 @@ namespace MvcCoreEmpleadosSession.Repositories
 
             return consulta.ToList();
         }
+        public Empleado FindEmpleado(int idempleado)
+        {
+            return this.context.Empleados.SingleOrDefault(x => x.No_Emp == idempleado);
+        }
     }
 }
