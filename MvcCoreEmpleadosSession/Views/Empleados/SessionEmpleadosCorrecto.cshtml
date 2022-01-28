@@ -1,0 +1,39 @@
+﻿@model List<Empleado>
+
+@{ 
+    List<int> listaSession = Context.Session.GetObject<List<int>>("IDSEMPLEADOS");
+}
+
+<h1>Session Empleados Correcto</h1>
+<h2 style="color: darkcyan">
+    @ViewData["MENSAJE"]
+</h2>
+<a class="btn btn-success m-2" asp-controller="Empleados" asp-action="EmpleadosAlmacenadosCorrecto">Ver empleados almacenados</a>
+<ul class="list-group">
+    @foreach (Empleado emp in Model)
+    {
+    <li class="list-group-item list-group-item-info">
+        @emp.Apellido
+        @if (listaSession == null)
+        {
+            <a class="btn btn-warning ms-2" asp-controller="Empleados" asp-action="SessionEmpleadosCorrecto" asp-route-idempleado="@emp.No_Emp">Almacenar empleado</a>
+                }
+                else
+                {
+                    if (listaSession.Contains(emp.No_Emp))
+                    {
+                        <button class="btn btn-warning ms-2" disabled>Almacenar empleado</button>
+                    }
+                    else
+                    {
+                        <a class="btn btn-warning ms-2" asp-controller="Empleados" asp-action="SessionEmpleadosCorrecto" asp-route-idempleado="@emp.No_Emp">Almacenar empleado</a>
+                    }
+                }
+
+
+
+
+
+    </li>
+    }
+</ul>

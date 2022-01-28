@@ -80,5 +80,88 @@ namespace MvcCoreEmpleadosSession.Controllers
         {
             return View();
         }
+
+
+        public IActionResult SessionEmpleadosCorrecto(int? idempleado)
+        {
+            if(idempleado != null)
+            {
+                List<int> listIdEmpleados;
+                if (HttpContext.Session.GetString("IDSEMPLEADOS") == null)
+                {
+                    //NO EXISTE NADA EN SESSION, CREAMOS LA COLECCION
+                    listIdEmpleados = new List<int>();
+                }
+                else
+                {  
+                    //EXISTE Y RECUPERAMOS LA COLECCION DE SESSION
+                    listIdEmpleados = HttpContext.Session.GetObject<List<int>>("IDSEMPLEADOS");
+                }
+
+                    listIdEmpleados.Add(idempleado.Value);
+
+                //ALMACENAMOS EL ID DENTRO DE LA COLECCION
+                //ALMACENAMOS LA COLECCION DE NUEVO EN SESSION
+                HttpContext.Session.SetObject("IDSEMPLEADOS", listIdEmpleados);
+                ViewData["MENSAJE"] = "Empleados almacenados: " + listIdEmpleados.Count;
+            }
+            return View(this.repo.GetEmpleados());
+        }
+
+        public IActionResult EmpleadosAlmacenadosCorrecto(int? ideliminar)
+        {
+            List<int> listIdEmpleados = HttpContext.Session.GetObject<List<int>>("IDSEMPLEADOS");
+            if (listIdEmpleados == null)
+            {
+                ViewData["MENSAJE"] = "No existen empleados almacenados";
+                return View();
+            }
+            else
+            {
+
+                if(ideliminar != null)
+                {
+                    listIdEmpleados.Remove(ideliminar.Value);
+                    if(listIdEmpleados.Count == 0)
+                    {
+                        //ESTA SENTENCIA ELIMINA LA SESION??
+                       // HttpContext.Session.SetObject("IDSEMPLEADOS", null);
+                        HttpContext.Session.Remove("IDSEMPLEADOS");
+                    }
+                    else
+                    {
+                        HttpContext.Session.SetObject("IDSEMPLEADOS", listIdEmpleados);
+                    }
+                    
+                }
+           
+                //NECESITAMOS UN METODO EN EL REPO QUE LE ENVIAREMOS UNA COLECCION DE ID 
+                //Y NOS DEVOLVERA LOS EMPLEADOS
+            
+                List<Empleado> empleados = this.repo.GetEmpledosSession(listIdEmpleados);
+
+                return View(empleados);
+            }
+            
+        }
+
+
+        [HttpPost]
+        public IActionResult EmpleadosAlmacenadosCorrecto(List<int>cantidad,List<int>idempleado)
+        {
+            List<int> listIdEmpleados = HttpContext.Session.GetObject<List<int>>("IDSEMPLEADOS");
+
+           for(int i = 0; i< listIdEmpleados.Count; i++)
+            {
+               if(listIdEmpleados[i] == idempleado[i])
+                {
+                   
+                }
+            }
+            return RedirectToAction("ResumenCompra");
+
+        }
     }
+
+
 }

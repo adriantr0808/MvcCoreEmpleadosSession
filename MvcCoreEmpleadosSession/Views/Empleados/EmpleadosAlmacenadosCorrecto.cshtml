@@ -1,0 +1,69 @@
+﻿@model IEnumerable<MvcCoreEmpleadosSession.Models.Empleado>
+
+@{
+    ViewData["Title"] = "EmpleadosAlmacenadosCorrecto";
+}
+
+<h1>Empleados Almacenados Session</h1>
+
+<a asp-controller="Empleados" asp-action="SessionEmpleadosCorrecto">Volver a Almacenar Empleados</a>
+<h2 style="color:darkred">@ViewData["MENSAJE"]</h2>
+@if (Context.Session.GetString("IDSEMPLEADOS") == null) { 
+    <h2 style="color:darkred">
+        No existen empleados en Session
+    </h2>
+}
+
+@if (Model != null)
+{
+<form method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Apellido
+                </th>
+                <th>
+                    Oficio
+                </th>
+                <th>
+                    Salario
+                </th>
+                <th>
+
+                </th>
+                <th>
+                    Eliminar
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.No_Emp)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Apellido)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Oficio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Salario)
+                    </td>
+                    <td>
+                        <input type="number" name="cantidad" />
+                        <input type="number" name="idempleado" value="@item.No_Emp" hidden />
+                    </td>
+                    <td>
+                        <a asp-controller="Empleados" asp-action="EmpleadosAlmacenadosCorrecto" class="btn btn-danger" asp-route-ideliminar="@item.No_Emp">Eliminar Session</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-success">Confirmar compra</button>
+</form>
+}
