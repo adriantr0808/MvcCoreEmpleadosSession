@@ -145,22 +145,33 @@ namespace MvcCoreEmpleadosSession.Controllers
             
         }
 
-
+        
         [HttpPost]
-        public IActionResult EmpleadosAlmacenadosCorrecto(List<int>cantidad,List<int>idempleado)
+        public IActionResult EmpleadosAlmacenadosCorrecto(List<int>cantidades)
         {
-            List<int> listIdEmpleados = HttpContext.Session.GetObject<List<int>>("IDSEMPLEADOS");
-
-           for(int i = 0; i< listIdEmpleados.Count; i++)
-            {
-               if(listIdEmpleados[i] == idempleado[i])
-                {
-                   
-                }
-            }
-            return RedirectToAction("ResumenCompra");
+            TempData.Put("PRODUCTOS", cantidades);
+            return RedirectToAction("ResumenCompraEmpleados");
 
         }
+
+        public IActionResult ResumenCompraEmpleados()
+        {
+            List<int> idsempleados = HttpContext.Session.GetObject<List<int>>("IDSEMPLEADOS");
+            List<Empleado> emps = new List<Empleado>();
+            foreach (int i in idsempleados)
+            {
+                Empleado emp = this.repo.FindEmpleado(i);
+                emps.Add(emp);
+            }
+
+            ViewData["EMPLEADOS"] = emps;
+            var cants = TempData.Get<List<int>>("PRODUCTOS");
+            return View(cants);
+        }
+        
+
+
+
     }
 
 

@@ -54,8 +54,8 @@
                         @Html.DisplayFor(modelItem => item.Salario)
                     </td>
                     <td>
-                        <input type="number" name="cantidad" />
-                        <input type="number" name="idempleado" value="@item.No_Emp" hidden />
+                        <input type="number" name="cantidades" />
+                       
                     </td>
                     <td>
                         <a asp-controller="Empleados" asp-action="EmpleadosAlmacenadosCorrecto" class="btn btn-danger" asp-route-ideliminar="@item.No_Emp">Eliminar Session</a>
